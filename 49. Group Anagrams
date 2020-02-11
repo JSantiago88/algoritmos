@@ -1,0 +1,22 @@
+class Solution {
+
+    /**
+     * @param String[] $strs
+     * @return String[][]
+     */
+    function groupAnagrams($strs) {
+        
+        $tablaRespaldo;
+        
+        foreach($strs as $key => $value) {
+            
+                $arr = str_split($value);
+            
+                sort($arr);
+ 
+                $tablaRespaldo[implode($arr)][] = $value;           
+        }
+        
+        return $tablaRespaldo;
+    }
+}
