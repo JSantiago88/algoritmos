@@ -16,25 +16,27 @@ class Graph
     adjacency_list[v2] << v1
   end
 
-  def bfs start_node
+  def dfs_recursive start_node
     return if start_node.nil?
-    queue = [start_node]
     result = []
     visited = {}
-    visited[start_node] = true
-    while queue.size > 0
-      current_vertex = queue.shift
-      result.push(current_vertex)
 
-      adjacency_list[current_vertex].each do |neighbor|
-         if visited[neighbor].nil?
-           visited[neighbor] = true
-           queue.push(neighbor)
-         end
-      end
-    end
+    dfs(start_node, result, visited)
+
     result
   end
+
+  private
+    def dfs vertex, result, visited
+      return if vertex.nil?
+      visited[vertex] = true
+      result << vertex
+      adjacency_list[vertex].each do |neighbor|
+        if visited[neighbor].nil?
+          dfs(neighbor, result, visited)
+        end
+      end
+    end
 end
 
 graph = Graph.new
@@ -53,4 +55,12 @@ graph.add_edge("D", "E")
 graph.add_edge("D", "F")
 graph.add_edge("E", "F")
 
-puts graph.bfs("A")
+puts graph.dfs_recursive("F")
+
+#          A
+#        /   \
+#       B     C
+#       |     |
+#       D --- E
+#        \   /
+#          F
